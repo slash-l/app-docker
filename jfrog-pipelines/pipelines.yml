@@ -38,7 +38,7 @@ pipelines:
         type: DockerBuild
         configuration:
           affinityGroup: dbp_group
-          dockerFileLocation: ./
+          dockerFileLocation: .
           dockerFileName: Dockerfile
           dockerImageName: soleng.jfrog.io/slash-docker-dev-local/helloworld  # replace with your image path and name
           dockerImageTag: ${run_number}
