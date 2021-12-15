@@ -3,7 +3,7 @@ resources:
     type: GitRepo
     configuration:
       gitProvider: SlashIntegration                       # <-- replace with your integration
-      path: slash/app-docker    # <-- replace with your repository name
+      path: slash-l/app-docker    # <-- replace with your repository name
       branches:
         include: master
 
