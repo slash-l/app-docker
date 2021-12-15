@@ -12,7 +12,7 @@ resources:
     configuration:
       registry: SlashArti                                # <-- replace with your artifactory integration
       sourceRepository: slash-docker-dev-local              # <-- required if registry is Artifactory
-      imageName: soleng.jfrog.io/slash-docker-dev-local/helloworld  # < -- replace with your image path and name
+      imageName: soleng.jfrog.io/slash-docker-dev-local/hello-world  # < -- replace with your image path and name
       imageTag: latest
       autoPull: true
 
@@ -26,7 +26,7 @@ resources:
   - name: dbp_promoted_build_info
     type: BuildInfo
     configuration:
-      sourceArtifactory: art
+      sourceArtifactory: SlashArti
       buildName: dbp_build
       buildNumber: 1
 
@@ -38,22 +38,22 @@ pipelines:
         type: DockerBuild
         configuration:
           affinityGroup: dbp_group
-          dockerFileLocation: .
+          dockerFileLocation: ../
           dockerFileName: Dockerfile
-          dockerImageName: kaloula.jfrog-pipelines.com/docker-local/dbp  # replace with your image path and name
+          dockerImageName: soleng.jfrog.io/slash-docker-dev-local/helloworld  # replace with your image path and name
           dockerImageTag: ${run_number}
           inputResources:
             - name: dbp_repo
           integrations:
-            - name: art                            # <-- replace with your artifactory integration
+            - name: SlashArti                            # <-- replace with your artifactory integration
 
       - name: docker_push
         type: DockerPush
         configuration:
           affinityGroup: dbp_group
-          targetRepository: docker-local
+          targetRepository: slash-docker-dev-local
           integrations:
-            - name: art                            # <-- replace with your artifactory integration
+            - name: SlashArti                            # <-- replace with your artifactory integration
           inputSteps:
             - name: docker_build
           outputResources:
@@ -70,7 +70,7 @@ pipelines:
       - name: promote_dbp_build
         type: PromoteBuild
         configuration:
-          targetRepository: demo-pipelines
+          targetRepository: slash-docker-test-local
           integrations:
             - name: art
           inputResources:
